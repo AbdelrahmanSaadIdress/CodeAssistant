@@ -1,0 +1,18 @@
+fastapi
+uvicorn[standard]
+python-multipart
+python-dotenv
+pydantic-settings
+
+langchain
+chroma
+
+transformers
+accelerate
+safetensors
+
+torch
+torchvision
+torchaudio
+
+--extra-index-url https://download.pytorch.org/whl/cu121
