@@ -1,6 +1,6 @@
 from typing import Dict, Any
-
-from .providers import HuggingFaceProvider
+from stores.llm.providers.HugginFaceProvider import HuggingFaceLLMProvider
+from stores.llm.providers.OpenAIProvider import OpenAIProvider
 
 
 class LLMFactory:
@@ -9,7 +9,8 @@ class LLMFactory:
     """
 
     PROVIDERS = {
-        "huggingface": HuggingFaceProvider,
+        "huggingface": HuggingFaceLLMProvider,
+        "openai":OpenAIProvider
     }
 
     @classmethod

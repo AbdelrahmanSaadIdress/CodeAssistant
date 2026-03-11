@@ -6,13 +6,15 @@ pydantic-settings
 
 langchain
 chroma
+openai
+
+json_repair
+huggingface_hub
 
 transformers
 accelerate
 safetensors
 
 torch
-torchvision
-torchaudio
 
 --extra-index-url https://download.pytorch.org/whl/cu121

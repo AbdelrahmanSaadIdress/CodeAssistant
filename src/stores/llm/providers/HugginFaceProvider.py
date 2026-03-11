@@ -1,11 +1,8 @@
 import logging
 from typing import Optional, Tuple
-
-from ..provider_interface import BaseLLMProvider
-
-import torch
+from stores.llm.provider_interface import BaseLLMProvider
 from transformers import AutoModelForCausalLM, AutoTokenizer
-
+import torch
 
 logger = logging.getLogger(__name__)
 
@@ -48,8 +45,7 @@ class HuggingFaceLLMProvider(BaseLLMProvider):
         self.torch_dtype = torch_dtype
         self.trust_remote_code = trust_remote_code
 
-        self.model = None
-        self.tokenizer = None
+        self.model, self.tokenizer =  self.load()
 
         logger.info(f"Initialized LLMProvider for {self.model_name_or_path}")
 
