@@ -1,5 +1,6 @@
 import json
 from models.QuickTasks.states import Intent
+from .util import _format_rag_sections
 
 
 def build_intent_messages(user_prompt):

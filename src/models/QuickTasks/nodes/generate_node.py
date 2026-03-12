@@ -2,17 +2,30 @@ from ..states import AgentState
 from ..prompts import *
 from stores.llm.llm_util import call_llm
 
+from controllers import ProjectFilesController
+from stores.CodeBaseVDB import CodebaseIndexer
+
+from .utils import _populate_rag_context
+
 config = {
     "api_url":"https://models.github.ai/inference",
     "api_key":"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"
 }
-def code_generator_node(state: AgentState) -> AgentState:
-    print("GENERATE NODE...")
+
+
+def code_generator_node(
+    state:              AgentState,
+    config:             dict,
+    project_controller: ProjectFilesController,
+    codebase_indexer:   CodebaseIndexer ) -> AgentState:
+    print("── GENERATE NODE ──")
+
+    state = _populate_rag_context(state, project_controller, codebase_indexer)
+
     messages = build_generate_messages(state)
+    result   = call_llm(config, messages)
 
-    result = call_llm(config, messages)
-
-    state.result = result.get("code")
+    state.result    = result.get("code")
     state.last_code = result.get("code")
 
     return state

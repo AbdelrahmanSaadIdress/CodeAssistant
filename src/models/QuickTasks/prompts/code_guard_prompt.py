@@ -1,35 +1,36 @@
 import json
 from models.QuickTasks.states import CodeAuditResult
+from .util import _format_rag_sections
 
-def build_detailed_audit_messages(state):
-    
+
+def build_detailed_audit_messages(state) -> list:
     messages = [
         {
             "role": "system",
             "content": "\n".join([
                 "You are a senior software security engineer.",
                 "",
-                "Your task is to audit the provided code for security issues, authentication problems, and potential vulnerabilities.",
+                "Your task is to audit the provided code for security issues.",
                 "",
                 "Guidelines:",
-                "- Detect authentication or authorization problems",
-                "- Detect SQL injection, XSS, command injection, or unsafe functions",
-                "- Detect hard-coded credentials, secrets, or tokens",
-                "- Detect weak password handling or unsafe storage",
-                "- Detect unsafe external dependencies or imports",
-                "- Rate the severity of each issue: low, medium, high",
-                "- Suggest safer alternatives or fixes when possible",
+                "- Detect authentication or authorization problems.",
+                "- Detect SQL injection, XSS, command injection, or unsafe functions.",
+                "- Detect hard-coded credentials, secrets, or tokens.",
+                "- Detect weak password handling or unsafe storage.",
+                "- Detect unsafe external dependencies or imports.",
+                "- Rate the severity of each issue: low, medium, high.",
+                "- Suggest safer alternatives or fixes when possible.",
                 "",
                 "Output Rules:",
-                "- Return ONLY valid JSON matching the schema",
-                "- Do NOT include explanations outside JSON",
-                "- Preserve code formatting if returning 'fixed_code'"
+                "- Return ONLY valid JSON matching the schema.",
+                "- Do NOT include explanations outside JSON.",
+                "- Preserve code formatting if returning 'fixed_code'.",
             ])
         },
         {
             "role": "user",
             "content": "\n".join([
-                f"Code to audit:\n{state.code_context.code or ''}",
+                f"## Code to Audit\n{state.code_context.code or state.last_code or ''}",
                 "",
                 "## Output Schema",
                 json.dumps(CodeAuditResult.model_json_schema(), indent=2),
@@ -39,15 +40,13 @@ def build_detailed_audit_messages(state):
             ])
         }
     ]
-    
     return messages
-
 
 import json
 from models.QuickTasks.states import CodeAuditResult
 
-def build_short_audit_messages(state):
-    
+
+def build_short_audit_messages(state) -> list:
     messages = [
         {
             "role": "system",
@@ -56,7 +55,7 @@ def build_short_audit_messages(state):
         {
             "role": "user",
             "content": "\n".join([
-                f"Code:\n{state.code_context.code or ''}",
+                f"Code:\n{state.code_context.code or state.last_code or ''}",
                 "",
                 "## Output Schema",
                 json.dumps(CodeAuditResult.model_json_schema(), indent=2),
@@ -66,5 +65,4 @@ def build_short_audit_messages(state):
             ])
         }
     ]
-    
     return messages

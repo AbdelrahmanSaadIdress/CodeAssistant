@@ -11,16 +11,13 @@ config = {
 }
 
 
-def code_task_node(state: AgentState) -> AgentState:
-    # Build messages
-    messages = build_code_task_messages(state.user_input)
-    
-    # Call LLM
-    result = call_llm(config, messages)
-    # Update state
-    state.code_context.code = result.get("code") or state.code_context.code
-    state.task = result.get("task") or state.task
-    
+def code_task_node(state: AgentState, config: dict) -> AgentState:
+    print("── CODE TASK NODE ──")
 
-    print(state)
+    messages = build_code_task_messages(state.user_input)
+    result   = call_llm(config, messages)
+
+    state.code_context.code = result.get("code") or state.code_context.code
+    state.task              = result.get("task") or state.task
+
     return state

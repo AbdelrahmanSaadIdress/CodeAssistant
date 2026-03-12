@@ -6,10 +6,12 @@ pydantic-settings
 
 langchain
 chroma
+chromadb
 openai
 
 json_repair
 huggingface_hub
+rarfile
 
 transformers
 accelerate
