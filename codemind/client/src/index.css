@@ -1,0 +1,297 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ═══════════════════════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════════════════════ */
+:root {
+  /* Background scale */
+  --bg-void:     #050508;
+  --bg-base:     #090910;
+  --bg-panel:    #0d0d16;
+  --bg-surface:  #111120;
+  --bg-raised:   #171728;
+  --bg-overlay:  #1e1e35;
+
+  /* Borders */
+  --border-dim:   rgba(255,255,255,0.04);
+  --border-soft:  rgba(255,255,255,0.07);
+  --border-mid:   rgba(255,255,255,0.11);
+  --border-loud:  rgba(255,255,255,0.18);
+
+  /* Accent — electric cyan */
+  --cyan:         #00e5ff;
+  --cyan-dim:     #00b8cc;
+  --cyan-ghost:   rgba(0, 229, 255, 0.08);
+  --cyan-glow:    rgba(0, 229, 255, 0.20);
+
+  /* Secondary accent — amber */
+  --amber:        #ffb300;
+  --amber-ghost:  rgba(255, 179, 0, 0.10);
+
+  /* Status */
+  --green:        #00e676;
+  --green-ghost:  rgba(0, 230, 118, 0.08);
+  --red:          #ff3d71;
+  --red-ghost:    rgba(255, 61, 113, 0.08);
+  --purple:       #b388ff;
+  --purple-ghost: rgba(179, 136, 255, 0.10);
+
+  /* Text */
+  --text-bright:  #f0f0ff;
+  --text-primary: #c8c8e0;
+  --text-soft:    #7878a0;
+  --text-muted:   #4a4a68;
+  --text-ghost:   #2e2e48;
+
+  /* Typography */
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-ui:      'Outfit', sans-serif;
+  --font-mono:    'IBM Plex Mono', monospace;
+
+  /* Spacing */
+  --sidebar-w:    240px;
+  --header-h:     52px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 14px; }
+
+body {
+  background: var(--bg-void);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+  height: 100vh;
+}
+
+#root {
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ─── Scrollbars ─────────────────────────────────────────── */
+::-webkit-scrollbar           { width: 3px; height: 3px; }
+::-webkit-scrollbar-track     { background: transparent; }
+::-webkit-scrollbar-thumb     { background: var(--border-mid); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--cyan-dim); }
+
+/* ─── Selection ──────────────────────────────────────────── */
+::selection { background: var(--cyan-glow); color: var(--cyan); }
+
+/* ═══════════════════════════════════════════════════════════
+   SCANLINE TEXTURE OVERLAY
+═══════════════════════════════════════════════════════════ */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.03) 2px,
+    rgba(0,0,0,0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 9998;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GRID BACKGROUND
+═══════════════════════════════════════════════════════════ */
+.bg-grid {
+  background-image:
+    linear-gradient(var(--border-dim) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border-dim) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ANIMATIONS
+═══════════════════════════════════════════════════════════ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-16px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes spinCW {
+  to { transform: rotate(360deg); }
+}
+@keyframes pulseDot {
+  0%, 100% { opacity: 0.3; transform: scale(0.7); }
+  50%       { opacity: 1;   transform: scale(1);   }
+}
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 8px var(--cyan-glow); }
+  50%       { box-shadow: 0 0 24px var(--cyan-glow), 0 0 48px rgba(0,229,255,0.06); }
+}
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+@keyframes scanline {
+  0%   { top: -10%; }
+  100% { top: 110%; }
+}
+
+/* ─── Utility Animation Classes ──────────────────────────── */
+.anim-fade-up   { animation: fadeUp 0.35s cubic-bezier(0.22,1,0.36,1) both; }
+.anim-fade-in   { animation: fadeIn 0.25s ease both; }
+.anim-slide-left{ animation: slideInLeft 0.3s cubic-bezier(0.22,1,0.36,1) both; }
+.anim-spin      { animation: spinCW 0.7s linear infinite; }
+.anim-glow      { animation: glowPulse 2s ease-in-out infinite; }
+
+/* Staggered children */
+.stagger > *:nth-child(1) { animation-delay: 0.05s; }
+.stagger > *:nth-child(2) { animation-delay: 0.10s; }
+.stagger > *:nth-child(3) { animation-delay: 0.15s; }
+.stagger > *:nth-child(4) { animation-delay: 0.20s; }
+.stagger > *:nth-child(5) { animation-delay: 0.25s; }
+.stagger > *:nth-child(6) { animation-delay: 0.30s; }
+
+/* ═══════════════════════════════════════════════════════════
+   TYPOGRAPHY UTILITIES
+═══════════════════════════════════════════════════════════ */
+.font-display { font-family: var(--font-display); letter-spacing: 0.04em; }
+.font-mono    { font-family: var(--font-mono); }
+.font-ui      { font-family: var(--font-ui); }
+
+.gradient-cyan {
+  background: linear-gradient(135deg, var(--cyan) 0%, #00b4d8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.gradient-mixed {
+  background: linear-gradient(135deg, var(--cyan) 0%, var(--purple) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   COMPONENT BASE STYLES
+═══════════════════════════════════════════════════════════ */
+
+/* Shimmer skeleton */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-raised) 25%,
+    var(--bg-overlay) 50%,
+    var(--bg-raised) 75%
+  );
+  background-size: 400px 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+/* Glowing border */
+.border-glow {
+  border-color: var(--cyan) !important;
+  box-shadow: 0 0 0 1px var(--cyan-ghost), 0 0 20px var(--cyan-ghost);
+}
+
+/* Terminal cursor */
+.terminal-cursor::after {
+  content: '█';
+  color: var(--cyan);
+  animation: cursorBlink 1s step-end infinite;
+  margin-left: 2px;
+}
+
+/* Chip/badge */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 10px;
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BUTTONS
+═══════════════════════════════════════════════════════════ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: 1px solid var(--border-mid);
+  border-radius: 4px;
+  background: var(--bg-raised);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+.btn:hover {
+  border-color: var(--border-loud);
+  background: var(--bg-overlay);
+  color: var(--text-bright);
+}
+.btn:active { transform: scale(0.98); }
+.btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-primary {
+  background: var(--cyan);
+  border-color: var(--cyan);
+  color: var(--bg-void);
+  font-weight: 600;
+}
+.btn-primary:hover {
+  background: #00f0ff;
+  border-color: #00f0ff;
+  color: var(--bg-void);
+  box-shadow: 0 0 20px var(--cyan-glow);
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--text-soft);
+}
+.btn-ghost:hover {
+  background: var(--bg-raised);
+  border-color: var(--border-soft);
+  color: var(--text-primary);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SCROLLABLE CONTAINER
+═══════════════════════════════════════════════════════════ */
+.scroll-container {
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}

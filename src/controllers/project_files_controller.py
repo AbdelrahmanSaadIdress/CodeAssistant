@@ -72,7 +72,6 @@ class ProjectFilesController:
                 "path":      str(file),
                 "content":   content,
             })
-            print(content)
 
         return records
 
@@ -105,8 +104,13 @@ class ProjectFilesController:
         # 4. Embed + store
         stored = self._embedder.embed_and_store(project_id, chunks)
         logger.info("Indexed %d chunks for project '%s'.", stored, project_id)
+        self.num_chunks = stored
 
         return stored
+
+
+    def chunk_count(self, proj):
+        return self.num_chunks
 
     # ------------------------------------------------------------------
     # Retrieval (used by the LLM context pipeline)

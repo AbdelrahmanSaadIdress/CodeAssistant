@@ -47,13 +47,13 @@ CURATED_REPOS: List[RepoConfig] = [
         include_paths = ["langgraph/"],
     ),
 
-    # # --- Vector Stores / Embeddings ---
-    # RepoConfig(
-    #     name        = "chromadb",
-    #     url         = "https://github.com/chroma-core/chroma.git",
-    #     description = "ChromaDB — vector store client and server",
-    #     include_paths = ["chromadb/"],
-    # ),
+    # --- Vector Stores / Embeddings ---
+    RepoConfig(
+        name        = "chromadb",
+        url         = "https://github.com/chroma-core/chroma.git",
+        description = "ChromaDB — vector store client and server",
+        include_paths = ["chromadb/"],
+    ),
 
     # # --- HTTP / Async ---
     # RepoConfig(
@@ -86,7 +86,7 @@ CURATED_REPOS: List[RepoConfig] = [
 
 
 # Max .py files to index per repo (prevents huge repos from taking hours)
-MAX_FILES_PER_REPO = 2
+MAX_FILES_PER_REPO = 5
 
 # Skip files larger than this (generated code, minified, etc.)
 MAX_FILE_SIZE_BYTES = 50_000   # 50 KB
