@@ -2,10 +2,6 @@ from ..states import AgentState
 from ..prompts import *
 from stores.llm.llm_util import call_llm
 
-config = {
-    "api_url":"https://models.github.ai/inference",
-    "api_key":"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"
-}
 
 from controllers import ProjectFilesController
 from stores.CodeBaseVDB import CodebaseIndexer

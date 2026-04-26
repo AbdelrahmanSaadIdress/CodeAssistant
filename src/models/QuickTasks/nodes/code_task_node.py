@@ -5,10 +5,6 @@ from stores.llm.llm_util import call_llm
 
 import json 
 
-config = {
-    "api_url":"https://models.github.ai/inference",
-    "api_key":"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"
-}
 
 
 def code_task_node(state: AgentState, config: dict) -> AgentState:

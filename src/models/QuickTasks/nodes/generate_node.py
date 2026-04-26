@@ -7,10 +7,6 @@ from stores.CodeBaseVDB import CodebaseIndexer
 
 from .utils import _populate_rag_context
 
-config = {
-    "api_url":"https://models.github.ai/inference",
-    "api_key":"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"
-}
 
 
 def code_generator_node(
