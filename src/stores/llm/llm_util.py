@@ -1,6 +1,9 @@
 import torch, json
 from json_repair import repair_json
 from .LLM_Factory import LLMFactory
+from helpers import get_settings, Settings
+
+settings = get_settings()
 
 def parse_json_safe(text: str):
     repaired_json = repair_json(text)
@@ -13,8 +16,8 @@ def parse_json_safe(text: str):
 
 
 def call_llm(config, messages):
-    provider = LLMFactory.create("openai", config)
-    provider.set_generation_model(model_id ="openai/gpt-4o-mini")
+    provider = LLMFactory.create(settings.PROVIDERS, config)
+    provider.set_generation_model(model_id=settings.OPENAI_MODEL_ID)
     response = provider.generate_text(messages)
     data = parse_json_safe(response)
     return data
@@ -23,7 +26,7 @@ def call_llm(config, messages):
 
 
 def call_llm_hf(config, messages):
-    provider = LLMFactory.create("huggingface", config)
+    provider = LLMFactory.create(settings.PROVIDERS, config)
     model = provider.get_model()
     tokenizer = provider.get_tokenizer()
 
