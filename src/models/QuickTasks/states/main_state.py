@@ -94,7 +94,6 @@ class AutocompleteResult(BaseModel):
 class CodeAuditResult(BaseModel):
     vulnerabilities: Optional[List[str]] = Field(default=None, description="List of security issues detected.")
     severity: Optional[List[str]] = Field(default=None, description="Severity per vulnerability: low, medium, high.")
-    fixed_code: Optional[str] = Field(default=None, description="Safer version of the code.")
     suggestions: Optional[List[str]] = Field(default=None, description="Additional security recommendations.")
 
 

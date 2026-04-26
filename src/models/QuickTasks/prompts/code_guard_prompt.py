@@ -19,7 +19,6 @@ def build_detailed_audit_messages(state) -> list:
                 "- Detect weak password handling or unsafe storage.",
                 "- Detect unsafe external dependencies or imports.",
                 "- Rate the severity of each issue: low, medium, high.",
-                "- Suggest safer alternatives or fixes when possible.",
                 "",
                 "Output Rules:",
                 "- Return ONLY valid JSON matching the schema.",
