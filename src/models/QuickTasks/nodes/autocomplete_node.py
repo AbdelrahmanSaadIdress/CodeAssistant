@@ -14,7 +14,7 @@ from langchain_core.runnables import RunnableConfig
 
 def autocomplete_node(
     state:              AgentState,
-    config:             RunnableConfig,
+    llm_config,
     project_controller: ProjectFilesController,
     codebase_indexer:   CodebaseIndexer,
 ) -> AgentState:
@@ -38,7 +38,7 @@ def autocomplete_node(
     ]
 
     messages = build_autocomplete_messages(state)
-    result   = call_llm(config, messages)
+    result   = call_llm(llm_config, messages)
 
     state.result    = result.get("completion")
     state.last_code = result.get("full_code")

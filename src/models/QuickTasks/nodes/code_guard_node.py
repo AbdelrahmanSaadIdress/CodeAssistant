@@ -11,7 +11,7 @@ from langchain_core.runnables import RunnableConfig
 
 def code_audit_node(
     state:    AgentState,
-    config:   RunnableConfig,
+    llm_config,
     detailed: bool = True,
 ) -> AgentState:
     print("── CODE AUDIT NODE ──")
@@ -22,14 +22,10 @@ def code_audit_node(
         else build_short_audit_messages(state)
     )
 
-    result = call_llm(config, messages)
+    result = call_llm(llm_config, messages)
     parsed = CodeAuditResult(**result)
 
     state.audit_context = parsed
     state.audit_history.append(parsed)
-
-    if parsed.fixed_code:
-        state.result    = parsed.fixed_code
-        state.last_code = parsed.fixed_code
 
     return state

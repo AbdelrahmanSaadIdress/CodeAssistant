@@ -9,7 +9,7 @@ from langchain_core.runnables import RunnableConfig
 
 def code_refine_node(
     state:            AgentState,
-    config:           RunnableConfig,
+    llm_config,
     codebase_indexer: CodebaseIndexer,
 ) -> AgentState:
     print("── REFINE NODE ──")
@@ -22,7 +22,7 @@ def code_refine_node(
     state.codebase_context.documents = [r["content"] for r in codebase_results]
 
     messages = build_refine_code_messages(state)
-    result   = call_llm(config, messages)
+    result   = call_llm(llm_config, messages)
 
     parsed = CodeRefinementResult(**result)
 

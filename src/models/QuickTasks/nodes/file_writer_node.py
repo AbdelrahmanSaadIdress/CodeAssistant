@@ -24,13 +24,13 @@ OUTPUT_BASE_DIR = "assets/output"
 
 def file_writer_node(
     state:  AgentState,
-    config: RunnableConfig,
+    llm_config,
 ) -> AgentState:
     print("── FILE WRITER NODE ──")
 
     # ── 1. Ask LLM to decide split strategy ───────────────────────
     messages = build_file_split_messages(state)
-    result   = call_llm(config, messages)
+    result   = call_llm(llm_config, messages)
 
     try:
         parsed = FileSplitResult(**result)

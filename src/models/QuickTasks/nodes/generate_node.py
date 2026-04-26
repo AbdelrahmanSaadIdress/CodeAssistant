@@ -10,7 +10,7 @@ from langchain_core.runnables import RunnableConfig
 
 def code_generator_node(
     state:              AgentState,
-    config:             RunnableConfig,
+    llm_config,
     project_controller: ProjectFilesController,
     codebase_indexer:   CodebaseIndexer ) -> AgentState:
     print("── GENERATE NODE ──")
@@ -18,7 +18,7 @@ def code_generator_node(
     state = _populate_rag_context(state, project_controller, codebase_indexer)
 
     messages = build_generate_messages(state)
-    result   = call_llm(config, messages)
+    result   = call_llm(llm_config, messages)
 
     state.result    = result.get("code")
     state.last_code = result.get("code")

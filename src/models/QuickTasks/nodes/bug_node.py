@@ -14,7 +14,7 @@ from .utils import _populate_rag_context
 
 def bug_detector_node(
     state:              AgentState,
-    config:             RunnableConfig,
+    llm_config,
     project_controller: ProjectFilesController,
     codebase_indexer:   CodebaseIndexer,
 ) -> AgentState:
@@ -31,7 +31,7 @@ def bug_detector_node(
         state.retrieval_context.documents = project_chunks
 
     messages = build_bug_messages(state)
-    result   = call_llm(config, messages)
+    result   = call_llm(llm_config, messages)
 
     state.result    = result.get("bugs")
     state.last_code = result.get("fixed_code")

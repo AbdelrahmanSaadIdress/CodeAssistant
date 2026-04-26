@@ -9,11 +9,11 @@ import json
 
 
 
-def code_task_node(state: AgentState, config: RunnableConfig) -> AgentState:
+def code_task_node(state: AgentState, llm_config) -> AgentState:
     print("── CODE TASK NODE ──")
 
     messages = build_code_task_messages(state.user_input)
-    result   = call_llm(config, messages)
+    result   = call_llm(llm_config, messages)
 
     state.code_context.code = result.get("code") or state.code_context.code
     state.task              = result.get("task") or state.task

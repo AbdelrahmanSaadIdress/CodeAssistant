@@ -35,7 +35,6 @@ class LLMFactory:
         """
 
         provider = provider.lower()
-        print(provider)
         if provider not in cls.PROVIDERS:
             raise ValueError(f"Unsupported provider: {provider}")
 

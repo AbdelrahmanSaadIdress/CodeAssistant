@@ -4,12 +4,11 @@ from stores.llm.llm_util import call_llm
 from langchain_core.runnables import RunnableConfig
 
 
-def intent_node(state: AgentState, config: RunnableConfig) -> AgentState:
+def intent_node(state: AgentState, llm_config) -> AgentState:
     print("── INTENT NODE ──")
 
     messages = build_intent_messages(state.user_input)
-    result   = call_llm(config, messages)
-
+    result   = call_llm(llm_config, messages)
     if "type" in result:
         state.intent = result["type"]
 

@@ -12,7 +12,7 @@ from .utils import _populate_rag_context
 
 def code_explainer_node(
     state:              AgentState,
-    config:             RunnableConfig,
+    llm_config,
     project_controller: ProjectFilesController,
     codebase_indexer:   CodebaseIndexer,
 ) -> AgentState:
@@ -27,7 +27,7 @@ def code_explainer_node(
         state.retrieval_context.documents = project_chunks
 
     messages = build_explain_messages(state)
-    result   = call_llm(config, messages)
+    result   = call_llm(llm_config, messages)
 
     state.result = result.get("explanation")
 

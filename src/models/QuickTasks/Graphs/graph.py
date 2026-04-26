@@ -39,40 +39,32 @@ from stores.CodeBaseVDB import CodebaseIndexer
 
 app_settings = get_settings()
 
-intent_llm_config = None
-code_task_llm_config = None
-code_generator_llm_config = None
-autocomplete_llm_config = None
-bug_detector_llm_config = None
-code_explainer_llm_config = None
-code_audit_llm_config = None
-code_refine_llm_config = None
-file_writer_llm_config = None
-all_configs = [
-    intent_llm_config,
-    code_task_llm_config,
-    code_generator_llm_config,
-    autocomplete_llm_config,
-    bug_detector_llm_config,
-    code_explainer_llm_config,
-    code_audit_llm_config,
-    code_refine_llm_config,
-    file_writer_llm_config
-]
 if app_settings.PROVIDERS.lower() == "openai":
-    for config in all_configs:
-        config = {
-            "model": app_settings.OPENAI_MODEL_ID,
-            "api_key": app_settings.OPENAI_API_KEY,
-            "api_url": app_settings.OPENAI_API_URL,
-        }
+    intent_llm_config = {
+        "api_key": app_settings.OPENAI_API_KEY,
+        "api_url": app_settings.OPENAI_API_URL,
+    }
+
+    code_task_llm_config = intent_llm_config.copy()
+    code_generator_llm_config = intent_llm_config.copy()
+    autocomplete_llm_config = intent_llm_config.copy()
+    bug_detector_llm_config = intent_llm_config.copy()
+    code_explainer_llm_config = intent_llm_config.copy()
+    code_audit_llm_config = intent_llm_config.copy()
+    code_refine_llm_config = intent_llm_config.copy()
+    file_writer_llm_config = intent_llm_config.copy()
 else:
-    for config in [intent_llm_config, code_task_llm_config, bug_detector_llm_config, code_explainer_llm_config, code_refine_llm_config, file_writer_llm_config ]:
-        config = {
-            "model": app_settings.OPENAI_MODEL_ID,
-            "api_key": app_settings.OPENAI_API_KEY,
-            "api_url": app_settings.OPENAI_API_URL,
-        }
+    intent_llm_config = {
+        "api_key": app_settings.OPENAI_API_KEY,
+        "api_url": app_settings.OPENAI_API_URL,
+    }
+
+    code_task_llm_config = intent_llm_config.copy()
+    bug_detector_llm_config = intent_llm_config.copy()
+    code_explainer_llm_config = intent_llm_config.copy()
+    code_refine_llm_config = intent_llm_config.copy()
+    file_writer_llm_config = intent_llm_config.copy()
+
     code_generator_llm_config = {"model_name_or_path": app_settings.HF_Generation_MODEL_ID }
     autocomplete_llm_config   = {"model_name_or_path": app_settings.HF_Autocomplete_MODEL_ID }
     code_audit_llm_config     = {"model_name_or_path": app_settings.HF_Audit_MODEL_ID }
@@ -115,41 +107,44 @@ def task_router(state: AgentState) -> str:
 graph = StateGraph(AgentState)
 
 # ── Nodes ─────────────────────────────────────────────────────────
+print("==============================")
+print(intent_llm_config)
+print("==============================")
 
-graph.add_node("intent",      partial(intent_node,     config=intent_llm_config))
-graph.add_node("code_task",   partial(code_task_node,  config=code_task_llm_config))
+graph.add_node("intent",      partial(intent_node,     llm_config=intent_llm_config))
+graph.add_node("code_task",   partial(code_task_node,  llm_config=code_task_llm_config))
 
 graph.add_node("code_generator", partial(
     code_generator_node,
-    config             = code_generator_llm_config,
+    llm_config         = code_generator_llm_config,
     project_controller = project_controller,
     codebase_indexer   = codebase_indexer,
 ))
 
 graph.add_node("autocomplete", partial(
     autocomplete_node,
-    config             = autocomplete_llm_config,
+    llm_config         = autocomplete_llm_config,
     project_controller = project_controller,
     codebase_indexer   = codebase_indexer,
 ))
 
 graph.add_node("bug_detector", partial(
     bug_detector_node,
-    config             = bug_detector_llm_config,
+    llm_config         = bug_detector_llm_config,
     project_controller = project_controller,
     codebase_indexer   = codebase_indexer,
 ))
 
 graph.add_node("code_explainer", partial(
     code_explainer_node,
-    config             = code_explainer_llm_config,
+    llm_config         = code_explainer_llm_config,
     project_controller = project_controller,
     codebase_indexer   = codebase_indexer,
 ))
 
-graph.add_node("code_audit",    partial(code_audit_node,  config=code_audit_llm_config, detailed=True))
-graph.add_node("code_refine",   partial(code_refine_node, config=code_refine_llm_config, codebase_indexer=codebase_indexer))
-graph.add_node("file_writer",   partial(file_writer_node, config=file_writer_llm_config))
+graph.add_node("code_audit",    partial(code_audit_node,  llm_config=code_audit_llm_config, detailed=True))
+graph.add_node("code_refine",   partial(code_refine_node, llm_config=code_refine_llm_config, codebase_indexer=codebase_indexer))
+graph.add_node("file_writer",   partial(file_writer_node, llm_config=file_writer_llm_config))
 
 
 # ── Edges ─────────────────────────────────────────────────────────
