@@ -95,11 +95,9 @@ class CodebaseIndexer:
     def _index_repo(self, repo: RepoConfig) -> int:
         # 1. Clone or update
         repo_path = self._clone_or_update(repo)
-        print(repo_path)
         # 2. Collect .py files respecting include_paths + size limit
         py_files = self._collect_py_files(repo_path, repo.include_paths)
         logger.info("  Found %d .py files (capped at %d)", len(py_files), MAX_FILES_PER_REPO)
-        print("=================="*10)
         # 3. Chunk + embed in one streaming pass
         total = 0
         batch_texts:  List[str]       = []

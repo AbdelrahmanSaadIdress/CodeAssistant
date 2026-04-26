@@ -40,6 +40,7 @@ async def trigger_indexing(
 
 
 @codebase_router.get("/status")
+
 async def index_status(
     indexer: CodebaseIndexer = Depends(get_indexer),
 ):

@@ -25,11 +25,10 @@ class ProjectFilesController:
     3. Embedding and storing them in the vector store.
     4. Exposing retrieval for the LLM context pipeline.
     """
-
     def __init__(
         self,
         base_dir:          str = "assets/projects",
-        embedding_api_key: str = "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",
+        embedding_api_key: str = "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",
         embedding_api_url: Optional[str] = "https://models.github.ai/inference",
     ):
         self.base_dir  = Path(base_dir)

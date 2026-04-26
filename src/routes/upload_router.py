@@ -60,35 +60,6 @@ async def upload_project(
     }
 
 
-@upload_router.delete("/{project_id}")
-async def delete_project(
-    project_id:       str,
-    files_controller: ProjectFilesController = Depends(get_files_controller),
-):
-    """Wipe all vectors for a project. Call before re-uploading a new version."""
-    files_controller._embedder.delete_project(project_id)
-
-    return {
-        "message":    f"Project '{project_id}' vectors deleted successfully.",
-        "project_id": project_id,
-    }
-
-
-@upload_router.get("/{project_id}/status")
-async def project_index_status(
-    project_id:       str,
-    files_controller: ProjectFilesController = Depends(get_files_controller),
-):
-    """Check how many chunks are currently indexed for a project."""
-    count = files_controller.chunk_count(project_id)
-
-    return {
-        "project_id":   project_id,
-        "total_chunks": count,
-        "indexed":      count > 0,
-    }
-
-
 # ── Background task ─────────────────────────────────────────────────
 
 def _extract_and_index(

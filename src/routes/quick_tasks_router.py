@@ -11,7 +11,6 @@ quick_tasks_router = APIRouter(
 
 
 # ── Routes ──────────────────────────────────────────────────────────
-
 @quick_tasks_router.post("/help")
 async def quick_help(
     project_id:          str  = Body(...,   embed=True),
