@@ -14,15 +14,3 @@ app.include_router(codebase_router)
 
 
 
-# from huggingface_hub import login, upload_folder
-
-# hf_token = "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"
-# login(token=hf_token)
-
-# print("fffffffff")
-
-# # Push your model files
-
-# upload_folder(folder_path=".", repo_id="AbdoSaad24/deepseek-coder-6.7b-code-gen-finetuned", repo_type="model")
-
-# print("fffffffff")
