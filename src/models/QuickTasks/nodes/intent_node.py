@@ -1,9 +1,10 @@
 from models.QuickTasks.states import AgentState, Intent
 from models.QuickTasks.prompts import build_intent_messages
 from stores.llm.llm_util import call_llm
+from langchain_core.runnables import RunnableConfig
 
 
-def intent_node(state: AgentState, config: dict) -> AgentState:
+def intent_node(state: AgentState, config: RunnableConfig) -> AgentState:
     print("── INTENT NODE ──")
 
     messages = build_intent_messages(state.user_input)

@@ -6,11 +6,12 @@ import json
 
 
 from models.QuickTasks.states import CodeAuditResult
+from langchain_core.runnables import RunnableConfig
 
 
 def code_audit_node(
     state:    AgentState,
-    config:   dict,
+    config:   RunnableConfig,
     detailed: bool = True,
 ) -> AgentState:
     print("── CODE AUDIT NODE ──")

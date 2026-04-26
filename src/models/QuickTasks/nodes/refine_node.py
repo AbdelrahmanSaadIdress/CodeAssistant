@@ -5,10 +5,11 @@ import json
 
 
 from stores.CodeBaseVDB import CodebaseIndexer
+from langchain_core.runnables import RunnableConfig
 
 def code_refine_node(
     state:            AgentState,
-    config:           dict,
+    config:           RunnableConfig,
     codebase_indexer: CodebaseIndexer,
 ) -> AgentState:
     print("── REFINE NODE ──")

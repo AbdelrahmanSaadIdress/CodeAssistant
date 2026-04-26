@@ -1,6 +1,7 @@
 from ..states import AgentState
 from ..prompts import *
 from stores.llm.llm_util import call_llm
+from langchain_core.runnables import RunnableConfig
 
 
 
@@ -13,7 +14,7 @@ from .utils import _populate_rag_context
 
 def bug_detector_node(
     state:              AgentState,
-    config:             dict,
+    config:             RunnableConfig,
     project_controller: ProjectFilesController,
     codebase_indexer:   CodebaseIndexer,
 ) -> AgentState:

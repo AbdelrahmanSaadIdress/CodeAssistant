@@ -16,6 +16,7 @@ from pathlib import Path
 from models.QuickTasks.states import AgentState, FileSplitResult, OutputFile
 from models.QuickTasks.prompts.file_split_prompt import build_file_split_messages
 from stores.llm.llm_util import call_llm
+from langchain_core.runnables import RunnableConfig
 
 
 OUTPUT_BASE_DIR = "assets/output"
@@ -23,7 +24,7 @@ OUTPUT_BASE_DIR = "assets/output"
 
 def file_writer_node(
     state:  AgentState,
-    config: dict,
+    config: RunnableConfig,
 ) -> AgentState:
     print("── FILE WRITER NODE ──")
 

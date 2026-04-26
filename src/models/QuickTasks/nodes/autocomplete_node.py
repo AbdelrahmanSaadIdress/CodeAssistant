@@ -7,12 +7,14 @@ from controllers import ProjectFilesController
 from stores.CodeBaseVDB import CodebaseIndexer
 
 from .utils import _populate_rag_context
+from langchain_core.runnables import RunnableConfig
+
 
 
 
 def autocomplete_node(
     state:              AgentState,
-    config:             dict,
+    config:             RunnableConfig,
     project_controller: ProjectFilesController,
     codebase_indexer:   CodebaseIndexer,
 ) -> AgentState:

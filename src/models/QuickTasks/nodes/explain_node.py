@@ -5,13 +5,14 @@ from stores.llm.llm_util import call_llm
 
 from controllers import ProjectFilesController
 from stores.CodeBaseVDB import CodebaseIndexer
+from langchain_core.runnables import RunnableConfig
 
 from .utils import _populate_rag_context
 
 
 def code_explainer_node(
     state:              AgentState,
-    config:             dict,
+    config:             RunnableConfig,
     project_controller: ProjectFilesController,
     codebase_indexer:   CodebaseIndexer,
 ) -> AgentState:
