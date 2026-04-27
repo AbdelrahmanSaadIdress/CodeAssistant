@@ -52,8 +52,9 @@ async def quick_help(
         "project_id":   project_id,
         "intent":       result["intent"].value if result["intent"] else None,
         "result":       result["result"],
-        "last_code":    result['last_code'],
-        "audit":        result['audit_context'].model_dump() if result['audit_context'] else None,
+        "last_code":    result.get("last_code"),
+        # "audit":        result['audit_context'].model_dump() if result.get('audit_context') else None,
+        "audit": result.get("audit_context").model_dump() if result.get("audit_context") else None,
         "output_files": [f.model_dump() for f in result['output_files']],
         "context_used": {
             "project_chunks":  len(result['retrieval_context'].documents),
