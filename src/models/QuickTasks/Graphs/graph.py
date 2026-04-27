@@ -62,12 +62,13 @@ else:
     code_task_llm_config = intent_llm_config.copy()
     bug_detector_llm_config = intent_llm_config.copy()
     code_explainer_llm_config = intent_llm_config.copy()
+    code_audit_llm_config     = intent_llm_config.copy()
     code_refine_llm_config = intent_llm_config.copy()
     file_writer_llm_config = intent_llm_config.copy()
 
     code_generator_llm_config = {"model_name_or_path": app_settings.HF_Generation_MODEL_ID }
     autocomplete_llm_config   = {"model_name_or_path": app_settings.HF_Autocomplete_MODEL_ID }
-    code_audit_llm_config     = {"model_name_or_path": app_settings.HF_Audit_MODEL_ID }
+    code_refine_llm_config    = {"model_name_or_path": app_settings.HF_Refine_MODEL_ID }
 
 
 

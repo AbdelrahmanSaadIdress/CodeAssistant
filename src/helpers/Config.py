@@ -12,7 +12,7 @@ class Settings(BaseSettings):
 
     HF_Generation_MODEL_ID: str = ""
     HF_Autocomplete_MODEL_ID: str = ""
-    HF_Audit_MODEL_ID: str = ""
+    HF_Refine_MODEL_ID: str = ""
 
     # LLM + Embeddings
     OPENAI_API_KEY: str
